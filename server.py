@@ -46,6 +46,7 @@ def health():
     return jsonify({"status": "ok"})
 
 
+@app.post("/verify")
 @app.post("/verify-license")
 def verify_license_endpoint():
     return verify_license()
