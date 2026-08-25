@@ -20,7 +20,11 @@ def verify_license():
     try:
         response = requests.post(
             PAYHIP_VERIFY_URL,
-            data={"api_key": api_key, "license_key": license_key},
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Accept": "application/json",
+            },
+            data={"license_key": license_key},
             timeout=15,
         )
     except requests.RequestException:
@@ -46,8 +50,8 @@ def health():
     return jsonify({"status": "ok"})
 
 
-@app.post("/verify")
-@app.post("/verify-license")
+@app.route("/verify", methods=["POST"], strict_slashes=False)
+@app.route("/verify-license", methods=["POST"], strict_slashes=False)
 def verify_license_endpoint():
     return verify_license()
 
